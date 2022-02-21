@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,7 +16,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        echo 'index';
+        $task = new Task();
+        $task->name = 'test';
+        $tasks = [$task]; //TODO get all tasks
+        return view('tasks.index', ['tasks'=>$tasks]);
     }
 
     /**

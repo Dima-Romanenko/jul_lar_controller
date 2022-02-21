@@ -14,4 +14,19 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('tasks', "TaskController", ['except' => ['show']]);
+
+Route::group([
+    'middleware'=>'auth',
+], function() {
+
+    Route::resource('tasks', "TaskController",['except' => [
+        'show'
+    ]]);
+
+    Route::get('/home', 'HomeController@index');
+});
+
+
+Route::auth();
+
+
