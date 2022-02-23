@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -16,9 +17,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = new Task();
-        $task->name = 'test';
-        $tasks = [$task]; //TODO get all tasks
+        $tasks = []; //TODO get all tasks
         return view('tasks.index', ['tasks'=>$tasks]);
     }
 
@@ -29,7 +28,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -40,7 +39,14 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name'=>'required|max:255',
+        ]);
+        Auth::user()->tasks()->create(['name'=>$request->name]);
+
+        $tasks = Auth::user()->tasks;
+
+        return view('tasks.index', ['tasks'=>$tasks]);
     }
 
     /**
