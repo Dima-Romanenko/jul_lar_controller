@@ -11,22 +11,31 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group([
-    'middleware'=>'auth',
-], function() {
+    'middleware'=>'lang',
+],function(){
+    Route::get('/', function () {
+        return view('welcome');
+    });
 
-    Route::resource('tasks', "TaskController",['except' => [
-        'show'
-    ]]);
+    Route::group([
+        'middleware'=>'auth',
+    ], function() {
 
-    Route::get('/home', 'HomeController@index');
+        Route::resource('tasks', 'TaskController',['except' => [
+            'show'
+        ]]);
+
+        Route::post('lang', 'TaskController@lang')->name('lang.switch');
+
+        Route::get('/home', 'HomeController@index');
+    });
+
+
+    Route::auth();
 });
 
 
-Route::auth();
+
 
 

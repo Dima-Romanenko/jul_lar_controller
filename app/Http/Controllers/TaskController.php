@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -92,5 +93,12 @@ class TaskController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function lang(Request $request){
+        $lang = $request->lang;
+        App::setLocale($lang);
+        session()->put('locale', $lang);
+        return redirect()->back();
     }
 }

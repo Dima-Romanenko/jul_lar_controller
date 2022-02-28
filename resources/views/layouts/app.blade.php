@@ -47,17 +47,31 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/home') }}">{{ trans('nav.pages.home') }}</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
+                    <li>
+                        <form method="post" action="{{ route('lang.switch') }}">
+                            {{ csrf_field() }}
+                            <select name="lang" onchange=" this.parentElement.submit() ">
+                                @if(app()->getLocale() === 'en')
+                                    <option selected>en</option>
+                                    <option>ru</option>
+                                @else
+                                    <option>en</option>
+                                    <option selected>ru</option>
+                                @endif
+                            </select>
+                        </form>
+                    </li>
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
-                        <li><a href="{{route('tasks.index')}}">Tasks</a></li>
+                        <li><a href="{{route('tasks.index')}}">{{ trans('nav.pages.tasks') }}</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
