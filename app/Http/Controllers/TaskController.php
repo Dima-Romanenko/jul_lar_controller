@@ -18,7 +18,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = []; //TODO get all tasks
+        $tasks = Auth::user()->tasks;
         return view('tasks.index', ['tasks'=>$tasks]);
     }
 
@@ -45,9 +45,7 @@ class TaskController extends Controller
         ]);
         Auth::user()->tasks()->create(['name'=>$request->name]);
 
-        $tasks = Auth::user()->tasks;
-
-        return view('tasks.index', ['tasks'=>$tasks]);
+        return redirect(route('tasks.index'));
     }
 
     /**
@@ -90,9 +88,10 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $tasks)
     {
-        //
+        $tasks->delete();
+        return redirect(route('tasks.index'));
     }
 
     public function lang(Request $request){
