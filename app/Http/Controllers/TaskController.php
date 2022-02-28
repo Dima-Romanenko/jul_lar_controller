@@ -94,6 +94,10 @@ class TaskController extends Controller
         return redirect(route('tasks.index'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function lang(Request $request){
         $lang = $request->lang;
         App::setLocale($lang);
